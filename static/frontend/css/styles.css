@@ -1,3 +1,17 @@
+@media (min-width: 1000px) {
+    .preview-wrapper {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+}
+
+@media (max-width: 999.98px) {
+    .preview-wrapper {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+}
+
 .wrapper {
     display: inline-grid;
     grid-template-columns: repeat(2, [col-start] 1fr);
