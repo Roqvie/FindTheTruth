@@ -6,6 +6,7 @@ import os
 from os.path import isfile, join
 import yadisk
 import tarfile
+import boto3
 
 
 def get_random_filename(format="png", length=16):
