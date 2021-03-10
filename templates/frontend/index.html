@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="row row-cols-1 row-cols-md-2 g-4 mt-4">
+  <div class="col">
+     {% include 'frontend/preview.html' with type="PS" button="Find real people" url="/person"%}
+  </div>
+  <div class="col">
+    {% include 'frontend/preview.html' with type="CA" button="Find real cat" url="/cat"%}
+  </div>
+</div>
+<script type="text/javascript " src="{% static 'frontend/js/main.js' %}"></script>
+{% endblock %}

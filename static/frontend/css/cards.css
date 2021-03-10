@@ -1,0 +1,110 @@
+@media (min-width: 624px) {
+    #choices {
+        margin-left: calc(50% - 304px);
+    }
+
+    .choice-wrapper {
+        display: inline-grid;
+        grid-template-columns: repeat(2, [col-start] 1fr);
+        grid-gap: 8px;
+    }
+
+    .scene {
+        width: 300px;
+        height: 300px;
+        perspective: 700px;
+    }
+    .flip-card {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transition: transform 1s;
+        transform-style: preserve-3d;
+    }
+    .card__face {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        backface-visibility: hidden;
+    }
+    .card__face--front {
+
+    }
+    .card__face--back {
+        transform: rotateY( 180deg );
+    }
+    .flip-card.is-flipped {
+        transform: rotateY(180deg);
+    }
+    .image-choice {
+        border: 0;
+    }
+    .image-choice:hover {
+        border-color: #198754;
+        border-style: solid;
+        border-width: 3px;
+    }
+    .card-text {
+        margin-top: 40%;
+    }
+    .spinner {
+        margin-top: 40%;
+    }
+
+}
+
+
+@media (max-width: 623.98px) {
+    #choices {
+        margin-left: calc(50% - 152px);
+    }
+
+    .choice-wrapper {
+        display: inline-grid;
+        grid-template-columns: repeat(1, [col-start] 1fr);
+        grid-gap: 8px;
+    }
+
+    .scene {
+        width: 300px;
+        height: 300px;
+        perspective: 700px;
+    }
+    .flip-card {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transition: transform 1s;
+        transform-style: preserve-3d;
+    }
+    .card__face {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        backface-visibility: hidden;
+    }
+    .card__face--front {
+
+    }
+    .card__face--back {
+        transform: rotateY( 180deg );
+    }
+    .flip-card.is-flipped {
+        transform: rotateY(180deg);
+    }
+    .image-choice {
+        border: 0;
+    }
+    .image-choice:hover {
+        border-color: #198754;
+        border-style: solid;
+        border-width: 3px;
+    }
+    .card-text {
+        margin-top: 40%;
+    }
+    .spinner {
+        margin-top: 40%;
+    }
+
+}

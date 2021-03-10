@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% include 'frontend/choice.html' with type="CA" %}
+<script type="text/javascript " src="{% static 'frontend/js/guess.js' %}"></script>
+{% endblock %}
