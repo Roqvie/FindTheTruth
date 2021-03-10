@@ -24,11 +24,11 @@ def get_files_from_dir(path):
 
 
 @click.command()
+@click.argument('from_dir')
 @click.option('--yandex/--no-yandex', required=True)
 @click.option('--url', required=True)
 @click.option('--token', required=True)
 @click.option('--save_dir', required=True)
-@click.argument('from_dir')
 @click.option('--database', '-db', required=True, help='Postgresql database to upload')
 @click.option('--user', '-u', required=True, help='User with access to database')
 @click.option('--password', '-p', required=True, help='Password of user with access to database')
