@@ -4,6 +4,8 @@ import psycopg2
 import click
 import os
 from os.path import isfile, join
+import yadisk
+import tarfile
 
 
 def get_random_filename(format="png", length=16):
@@ -22,6 +24,10 @@ def get_files_from_dir(path):
 
 
 @click.command()
+@click.option('--yandex/--no-yandex', required=True)
+@click.option('--url', required=True)
+@click.option('--token', required=True)
+@click.option('--save_dir', required=True)
 @click.argument('from_dir')
 @click.option('--database', '-db', required=True, help='Postgresql database to upload')
 @click.option('--user', '-u', required=True, help='User with access to database')
@@ -31,7 +37,7 @@ def get_files_from_dir(path):
 @click.option('--table', required=True, help='Name of table with photos')
 @click.option('--aws/--no-aws', required=True)
 @click.option('--img_type', required=True)
-def main(from_dir, database, user, password, host, port, table, aws, img_type):
+def main(yandex, url, token, save_dir, from_dir, database, user, password, host, port, table, aws, img_type):
     # Соединяемся с базой данных
     con = psycopg2.connect(database=database, user=user, password=password, host=host, port=port)
     cur = con.cursor()
@@ -48,6 +54,18 @@ def main(from_dir, database, user, password, host, port, table, aws, img_type):
         )
         space_name = input('Enter space name\n> ')
         dir_to_load = input('Enter directory where the images will be uploaded\n> ')
+
+    if yandex:
+        y = yadisk.YaDisk(token)
+        print(f'Downloading files from {url}')
+        y.download_public(
+            public_key=url,
+            file_or_path="from_disk.tar.gz"
+        )
+        archive = tarfile.open('from_disk.tar.gz')
+        print(f'Extracting files to {save_dir}')
+        archive.extractall(f"{save_dir}")
+        archive.close()
 
     files = [('/'.join([os.path.abspath(os.getcwd()), from_dir]), image_path) for image_path in get_files_from_dir(from_dir)]
 
