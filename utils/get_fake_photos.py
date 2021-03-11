@@ -53,6 +53,7 @@ def main(num_of_photos, database, user, password, host, port, table, aws, img_ty
         r = requests.get(URL)
         filename = get_random_filename()
         # Сохраняем фото
+        print(f'Getting {i + 1}/{num_of_photos} photo... [ "{filename}" ]')
         with open(f"media/{filename}", "wb") as photo:
             photo.write(r.content)
             i += 1
