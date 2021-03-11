@@ -27,9 +27,9 @@ def get_files_from_dir(path):
 @click.command()
 @click.argument('from_dir')
 @click.option('--yandex/--no-yandex', required=True)
-@click.option('--url', required=True)
-@click.option('--token', required=True)
-@click.option('--save_dir', required=True)
+@click.option('--url')
+@click.option('--token')
+@click.option('--save_dir')
 @click.option('--database', '-db', required=True, help='Postgresql database to upload')
 @click.option('--user', '-u', required=True, help='User with access to database')
 @click.option('--password', '-p', required=True, help='Password of user with access to database')
@@ -63,18 +63,19 @@ def main(yandex, url, token, save_dir, from_dir, database, user, password, host,
             public_key=url,
             file_or_path="from_disk.tar.gz"
         )
-        archive = tarfile.open('from_disk.tar.gz')
+        archive = tarfile.open('from_disk.tar.gz', "r:gz")
         print(f'Extracting files to {save_dir}')
         archive.extractall(f"{save_dir}")
         archive.close()
 
     files = [('/'.join([os.path.abspath(os.getcwd()), from_dir]), image_path) for image_path in get_files_from_dir(from_dir)]
-    print(files)
-
-    for path, image_filename in files:
+    print(f"Find {len(files)} files in directory")
+    for i, file in enumerate(files):
+        path, image_filename = file
         filename = get_random_filename()
         os.rename(f"{path}/{image_filename}", f"{path}/{filename}")
         # Добавляем фото в БД
+        print(f'Getting {i + 1}/{len(files)} photo... Renaming original "{path}/{image_filename}" to "{path}/{filename}"')
         cur.execute(
             f"INSERT INTO {table} (is_real,type,photo_url) VALUES (true, '{img_type}', '{filename}')"
         )
