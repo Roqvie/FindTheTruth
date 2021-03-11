@@ -39,9 +39,9 @@ def get_files_from_dir(path):
 @click.option('--aws/--no-aws', required=True)
 @click.option('--img_type', required=True)
 def main(yandex, url, token, save_dir, from_dir, database, user, password, host, port, table, aws, img_type):
-    # # Соединяемся с базой данных
-    # con = psycopg2.connect(database=database, user=user, password=password, host=host, port=port)
-    # cur = con.cursor()
+    # Соединяемся с базой данных
+    con = psycopg2.connect(database=database, user=user, password=password, host=host, port=port)
+    cur = con.cursor()
 
     # Вводим данные хранилища если необходимо
     if aws:
@@ -71,23 +71,23 @@ def main(yandex, url, token, save_dir, from_dir, database, user, password, host,
     files = [('/'.join([os.path.abspath(os.getcwd()), from_dir]), image_path) for image_path in get_files_from_dir(from_dir)]
     print(files)
 
-    # for path, image_filename in files:
-    #     filename = get_random_filename()
-    #     os.rename(f"{path}/{image_filename}", f"{path}/{filename}")
-    #     # Добавляем фото в БД
-    #     cur.execute(
-    #         f"INSERT INTO {table} (is_real,type,photo_url) VALUES (true, '{img_type}', '{filename}')"
-    #     )
-    #
-    #     con.commit()
-    #     # Загружаем в хранилище при необходимости
-    #     if aws:
-    #         client.upload_file(
-    #             f"{path}/{filename}",
-    #             space_name,
-    #             f"{dir_to_load}/{filename}",
-    #             ExtraArgs={'ACL': 'public-read', 'ContentType': 'image/png'}
-    #         )
+    for path, image_filename in files:
+        filename = get_random_filename()
+        os.rename(f"{path}/{image_filename}", f"{path}/{filename}")
+        # Добавляем фото в БД
+        cur.execute(
+            f"INSERT INTO {table} (is_real,type,photo_url) VALUES (true, '{img_type}', '{filename}')"
+        )
+
+        con.commit()
+        # Загружаем в хранилище при необходимости
+        if aws:
+            client.upload_file(
+                f"{path}/{filename}",
+                space_name,
+                f"{dir_to_load}/{filename}",
+                ExtraArgs={'ACL': 'public-read', 'ContentType': 'image/png'}
+            )
 
     con.close()
 
